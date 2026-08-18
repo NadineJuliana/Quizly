@@ -31,7 +31,7 @@ class QuizListCreateView(APIView):
             user=request.user,
             title=quiz_data["title"],
             description=quiz_data["description"],
-            video_url=url,
+            video_url=quiz_data["video_url"],
         )
 
         for question_data in quiz_data["questions"]:
