@@ -34,6 +34,7 @@ class QuizCreateHappyPathTests(APITestCase):
         mock_create_quiz.return_value = {
             "title": "Quiz Title",
             "description": "Quiz Description",
+            "video_url": "https://www.youtube.com/watch?v=example",
             "questions": [
                 {
                     "question_title": "Question 1",
