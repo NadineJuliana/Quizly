@@ -46,7 +46,6 @@ ALLOWED_HOSTS = get_env_list(
 )
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -56,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'authentication',
@@ -63,6 +63,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,7 +73,25 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# CORS and CSRF settings
+
+CSRF_TRUSTED_ORIGINS = get_env_list(
+    "CSRF_TRUSTED_ORIGINS",
+    "http://localhost:5500,http://127.0.0.1:5500",
+)
+
+CORS_ALLOWED_ORIGINS = get_env_list(
+    "CORS_ALLOWED_ORIGINS",
+    "http://localhost:5500,http://127.0.0.1:5500",
+)
+
+
+# URL configuration
+
 ROOT_URLCONF = 'core.urls'
+
+
+# Templates
 
 TEMPLATES = [
     {
@@ -88,6 +107,9 @@ TEMPLATES = [
         },
     },
 ]
+
+
+# WSGI application
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
