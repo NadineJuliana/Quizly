@@ -1,2 +1,1 @@
-def create_quiz_from_youtube(url):
-    raise NotImplementedError
+from .quiz_service import create_quiz_from_youtube
