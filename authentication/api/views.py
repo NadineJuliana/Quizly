@@ -112,7 +112,7 @@ class LogoutView(APIView):
         response = Response(
             {
                 "detail": (
-                    "Log-Out successfully! All Tokens will be deleted."
+                    "Log-Out successfully! All Tokens will be deleted. "
                     "Refresh token is now invalid."
                 )
             },
