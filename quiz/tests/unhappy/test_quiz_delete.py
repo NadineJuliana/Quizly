@@ -1,4 +1,6 @@
-# quiz/tests/unhappy/test_quiz_delete.py
+"""
+Tests for unsuccessful quiz deletion requests.
+"""
 
 from django.contrib.auth import get_user_model
 from rest_framework import status
@@ -12,8 +14,15 @@ User = get_user_model()
 
 
 class QuizDeleteUnhappyPathTests(APITestCase):
+    """
+    Tests unsuccessful quiz deletion requests.
+    """
 
     def setUp(self):
+        """
+        Creates users required for quiz deletion permission tests.
+        """
+
         self.user = User.objects.create_user(
             username="testuser",
             password="testpassword123",
@@ -27,10 +36,18 @@ class QuizDeleteUnhappyPathTests(APITestCase):
         )
 
     def authenticate_user(self):
+        """
+        Authenticates the test user using an access token.
+        """
+
         refresh = RefreshToken.for_user(self.user)
         self.client.cookies["access_token"] = str(refresh.access_token)
 
     def test_delete_quiz_without_authentication(self):
+        """
+        Tests that quiz deletion fails without authentication.
+        """
+
         quiz = Quiz.objects.create(
             user=self.user,
             title="Quiz Title",
@@ -48,6 +65,10 @@ class QuizDeleteUnhappyPathTests(APITestCase):
         )
 
     def test_delete_quiz_forbidden(self):
+        """
+        Tests that a user cannot delete another user's quiz.
+        """
+
         self.authenticate_user()
 
         quiz = Quiz.objects.create(
@@ -67,6 +88,10 @@ class QuizDeleteUnhappyPathTests(APITestCase):
         )
 
     def test_delete_quiz_not_found(self):
+        """
+        Tests that deleting a nonexistent quiz returns status 404.
+        """
+
         self.authenticate_user()
 
         response = self.client.delete(

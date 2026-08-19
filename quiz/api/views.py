@@ -1,4 +1,7 @@
-from httpx import request
+"""
+Views for creating, retrieving, updating, and deleting quizzes.
+"""
+
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -16,10 +19,18 @@ from quiz.services import create_quiz_from_youtube
 
 
 class QuizListCreateView(APIView):
+    """
+    Handles quiz creation and retrieval of the user's quizzes.
+    """
+
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        """
+        Creates a new quiz from a submitted YouTube URL.
+        """
+
         input_serializer = QuizCreateSerializer(data=request.data)
         input_serializer.is_valid(raise_exception=True)
 
@@ -48,6 +59,10 @@ class QuizListCreateView(APIView):
         )
 
     def get(self, request):
+        """
+        Returns all quizzes belonging to the authenticated user.
+        """
+
         quizzes = Quiz.objects.filter(user=request.user)
 
         serializer = QuizSerializer(
@@ -62,10 +77,18 @@ class QuizListCreateView(APIView):
 
 
 class QuizDetailView(APIView):
+    """
+    Handles retrieval, updating, and deletion of a single quiz.
+    """
+
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
+        """
+        Returns a quiz if it exists and belongs to the authenticated user.
+        """
+
         try:
             quiz = Quiz.objects.get(pk=pk)
         except Quiz.DoesNotExist:
@@ -88,6 +111,10 @@ class QuizDetailView(APIView):
         )
 
     def patch(self, request, pk):
+        """
+        Partially updates a quiz owned by the authenticated user.
+        """
+
         try:
             quiz = Quiz.objects.get(pk=pk)
         except Quiz.DoesNotExist:
@@ -117,6 +144,10 @@ class QuizDetailView(APIView):
         )
 
     def delete(self, request, pk):
+        """
+        Deletes a quiz owned by the authenticated user.
+        """
+
         try:
             quiz = Quiz.objects.get(pk=pk)
         except Quiz.DoesNotExist:

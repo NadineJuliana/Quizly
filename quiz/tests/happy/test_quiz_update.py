@@ -1,3 +1,7 @@
+"""
+Tests for successful quiz update requests.
+"""
+
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -10,8 +14,15 @@ User = get_user_model()
 
 
 class QuizUpdateHappyPathTests(APITestCase):
+    """
+    Tests successful quiz update requests.
+    """
 
     def setUp(self):
+        """
+        Creates and authenticates a user and prepares a quiz for updating.
+        """
+
         self.user = User.objects.create_user(
             username="testuser",
             password="testpassword123",
@@ -29,6 +40,10 @@ class QuizUpdateHappyPathTests(APITestCase):
         )
 
     def test_update_quiz_success(self):
+        """
+        Tests that an owned quiz can be partially updated successfully.
+        """
+
         data = {
             "title": "Partially Updated Title",
             "description": "Partially Updated Description",

@@ -1,9 +1,17 @@
+"""
+Service for generating quiz data from a transcript using Gemini.
+"""
+
 import json
 
 from google import genai
 
 
 def generate_quiz(transcript):
+    """
+    Generates structured quiz data from the provided transcript.
+    """
+
     client = genai.Client()
 
     prompt = f"""

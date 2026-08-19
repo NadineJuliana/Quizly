@@ -1,4 +1,6 @@
-# quiz/tests/happy/test_quiz_delete.py
+"""
+Tests for successful quiz deletion requests.
+"""
 
 from django.contrib.auth import get_user_model
 from rest_framework import status
@@ -12,8 +14,15 @@ User = get_user_model()
 
 
 class QuizDeleteHappyPathTests(APITestCase):
+    """
+    Tests successful quiz deletion requests.
+    """
 
     def setUp(self):
+        """
+        Creates and authenticates a user and prepares a quiz for deletion.
+        """
+
         self.user = User.objects.create_user(
             username="testuser",
             password="testpassword123",
@@ -31,6 +40,10 @@ class QuizDeleteHappyPathTests(APITestCase):
         )
 
     def test_delete_quiz_success(self):
+        """
+        Tests that a user can delete an owned quiz successfully.
+        """
+
         response = self.client.delete(
             f"/api/quizzes/{self.quiz.id}/"
         )

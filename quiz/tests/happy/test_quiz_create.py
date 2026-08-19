@@ -1,3 +1,7 @@
+"""
+Tests for successful quiz creation requests.
+"""
+
 from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
@@ -10,8 +14,15 @@ User = get_user_model()
 
 
 class QuizCreateHappyPathTests(APITestCase):
+    """
+    Tests successful quiz creation requests.
+    """
 
     def setUp(self):
+        """
+        Creates and authenticates a user and prepares quiz test data.
+        """
+
         self.user = User.objects.create_user(
             username="testuser",
             password="testpassword123",
@@ -31,6 +42,10 @@ class QuizCreateHappyPathTests(APITestCase):
         create=True,
     )
     def test_create_quiz_success(self, mock_create_quiz):
+        """
+        Tests that a quiz can be created successfully from a YouTube URL.
+        """
+
         mock_create_quiz.return_value = {
             "title": "Quiz Title",
             "description": "Quiz Description",

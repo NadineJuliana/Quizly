@@ -1,3 +1,7 @@
+"""
+Models for quizzes and their related questions.
+"""
+
 from django.db import models
 from django.conf import settings
 
@@ -5,6 +9,10 @@ from django.conf import settings
 
 
 class Quiz(models.Model):
+    """
+    Represents a quiz created from a YouTube video.
+    """
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -17,10 +25,18 @@ class Quiz(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
+        """
+        Returns the title of the quiz as its string representation.
+        """
+
         return self.title
 
 
 class Question(models.Model):
+    """
+    Represents a question belonging to a quiz.
+    """
+
     quiz = models.ForeignKey(
         Quiz,
         on_delete=models.CASCADE,
@@ -33,4 +49,8 @@ class Question(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
+        """
+        Returns the question title as its string representation.
+        """
+
         return self.question_title

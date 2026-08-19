@@ -1,3 +1,7 @@
+"""
+Views for user registration, login, logout, and token refresh.
+"""
+
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -11,10 +15,18 @@ from .authentication import CookieJWTAuthentication
 
 
 class RegistrationView(APIView):
+    """
+    Handles user registration requests.
+    """
+
     authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):
+        """
+        Creates a new user with the submitted registration data.
+        """
+
         serializer = RegistrationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -26,10 +38,18 @@ class RegistrationView(APIView):
 
 
 class LoginView(APIView):
+    """
+    Handles user login and creates JWT tokens.
+    """
+
     authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):
+        """
+        Authenticates the user and stores JWT tokens in cookies.
+        """
+
         serializer = LoginSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -68,10 +88,18 @@ class LoginView(APIView):
 
 
 class LogoutView(APIView):
+    """
+    Handles user logout and invalidates JWT refresh tokens.
+    """
+
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        """
+        Blacklists the refresh token and deletes authentication cookies.
+        """
+
         refresh_token = request.COOKIES.get("refresh_token")
 
         if refresh_token:
@@ -98,10 +126,18 @@ class LogoutView(APIView):
 
 
 class TokenRefreshView(APIView):
+    """
+    Handles requests for refreshing JWT access tokens.
+    """
+
     authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):
+        """
+        Creates a new access token using the refresh token cookie.
+        """
+
         refresh_token = request.COOKIES.get("refresh_token")
 
         if not refresh_token:

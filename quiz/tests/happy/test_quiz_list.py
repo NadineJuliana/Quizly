@@ -1,3 +1,7 @@
+"""
+Tests for successful quiz list requests.
+"""
+
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -10,8 +14,15 @@ User = get_user_model()
 
 
 class QuizListHappyPathTests(APITestCase):
+    """
+    Tests successful quiz list requests.
+    """
 
     def setUp(self):
+        """
+        Creates and authenticates a user and prepares a quiz with a question.
+        """
+
         self.user = User.objects.create_user(
             username="testuser",
             password="testpassword123",
@@ -41,6 +52,10 @@ class QuizListHappyPathTests(APITestCase):
         )
 
     def test_get_quizzes_success(self):
+        """
+        Tests that the authenticated user's quizzes are returned successfully.
+        """
+
         response = self.client.get("/api/quizzes/")
 
         self.assertEqual(

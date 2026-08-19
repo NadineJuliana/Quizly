@@ -1,3 +1,7 @@
+"""
+Tests for successful authentication requests.
+"""
+
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -8,13 +12,24 @@ User = get_user_model()
 
 
 class AuthenticationHappyPathTests(APITestCase):
+    """
+    Tests successful authentication requests.
+    """
 
     def setUp(self):
+        """
+        Prepares reusable user data for authentication tests.
+        """
+
         self.username = "testuser"
         self.password = "testpassword123"
         self.email = "test@example.com"
 
     def test_register_user_success(self):
+        """
+        Tests that a user can register successfully.
+        """
+
         data = {
             "username": self.username,
             "password": self.password,
@@ -37,6 +52,10 @@ class AuthenticationHappyPathTests(APITestCase):
         )
 
     def test_login_success(self):
+        """
+        Tests that a user can log in with valid credentials.
+        """
+
         user = User.objects.create_user(
             username=self.username,
             password=self.password,
@@ -66,6 +85,10 @@ class AuthenticationHappyPathTests(APITestCase):
         self.assertIn("refresh_token", response.cookies)
 
     def test_logout_success(self):
+        """
+        Tests that an authenticated user can log out successfully.
+        """
+
         user = User.objects.create_user(
             username=self.username,
             password=self.password,
@@ -94,6 +117,10 @@ class AuthenticationHappyPathTests(APITestCase):
         self.assertEqual(response.cookies["refresh_token"].value, "")
 
     def test_refresh_token_success(self):
+        """
+        Tests that a valid refresh token creates a new access token.
+        """
+
         user = User.objects.create_user(
             username=self.username,
             password=self.password,

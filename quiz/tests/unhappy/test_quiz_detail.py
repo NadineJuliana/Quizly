@@ -1,3 +1,7 @@
+"""
+Tests for unsuccessful quiz detail requests.
+"""
+
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -10,8 +14,15 @@ User = get_user_model()
 
 
 class QuizDetailUnhappyPathTests(APITestCase):
+    """
+    Tests unsuccessful quiz detail requests.
+    """
 
     def setUp(self):
+        """
+        Creates users required for quiz detail permission tests.
+        """
+
         self.user = User.objects.create_user(
             username="testuser",
             password="testpassword123",
@@ -25,10 +36,18 @@ class QuizDetailUnhappyPathTests(APITestCase):
         )
 
     def authenticate_user(self):
+        """
+        Authenticates the test user using an access token.
+        """
+
         refresh = RefreshToken.for_user(self.user)
         self.client.cookies["access_token"] = str(refresh.access_token)
 
     def test_get_quiz_detail_without_authentication(self):
+        """
+        Tests that quiz details cannot be retrieved without authentication.
+        """
+
         quiz = Quiz.objects.create(
             user=self.user,
             title="Quiz Title",
@@ -46,6 +65,10 @@ class QuizDetailUnhappyPathTests(APITestCase):
         )
 
     def test_get_quiz_detail_forbidden(self):
+        """
+        Tests that a user cannot access another user's quiz.
+        """
+
         self.authenticate_user()
 
         quiz = Quiz.objects.create(
@@ -65,6 +88,10 @@ class QuizDetailUnhappyPathTests(APITestCase):
         )
 
     def test_get_quiz_detail_not_found(self):
+        """
+        Tests that requesting a nonexistent quiz returns status 404.
+        """
+
         self.authenticate_user()
 
         response = self.client.get(

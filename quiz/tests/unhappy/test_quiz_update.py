@@ -1,3 +1,7 @@
+"""
+Tests for unsuccessful quiz update requests.
+"""
+
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -10,8 +14,15 @@ User = get_user_model()
 
 
 class QuizUpdateUnhappyPathTests(APITestCase):
+    """
+    Tests unsuccessful quiz update requests.
+    """
 
     def setUp(self):
+        """
+        Creates users required for quiz update permission tests.
+        """
+
         self.user = User.objects.create_user(
             username="testuser",
             password="testpassword123",
@@ -25,10 +36,18 @@ class QuizUpdateUnhappyPathTests(APITestCase):
         )
 
     def authenticate_user(self):
+        """
+        Authenticates the test user using an access token.
+        """
+
         refresh = RefreshToken.for_user(self.user)
         self.client.cookies["access_token"] = str(refresh.access_token)
 
     def test_update_quiz_with_invalid_data(self):
+        """
+        Tests that updating a quiz fails when invalid data is provided.
+        """
+
         self.authenticate_user()
 
         quiz = Quiz.objects.create(
@@ -54,6 +73,10 @@ class QuizUpdateUnhappyPathTests(APITestCase):
         )
 
     def test_update_quiz_without_authentication(self):
+        """
+        Tests that quiz updates fail without authentication.
+        """
+
         quiz = Quiz.objects.create(
             user=self.user,
             title="Quiz Title",
@@ -73,6 +96,10 @@ class QuizUpdateUnhappyPathTests(APITestCase):
         )
 
     def test_update_quiz_forbidden(self):
+        """
+        Tests that a user cannot update another user's quiz.
+        """
+
         self.authenticate_user()
 
         quiz = Quiz.objects.create(
@@ -94,6 +121,10 @@ class QuizUpdateUnhappyPathTests(APITestCase):
         )
 
     def test_update_quiz_not_found(self):
+        """
+        Tests that a user cannot update another user's quiz.
+        """
+
         self.authenticate_user()
 
         response = self.client.patch(

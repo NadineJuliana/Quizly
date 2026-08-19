@@ -1,3 +1,7 @@
+"""
+Service for downloading and extracting audio from YouTube videos.
+"""
+
 from pathlib import Path
 import tempfile
 
@@ -5,6 +9,10 @@ import yt_dlp
 
 
 def download_audio(url):
+    """
+    Downloads a YouTube video and extracts its audio as an MP3 file.
+    """
+
     temp_dir = tempfile.mkdtemp()
 
     tmp_filename = str(
