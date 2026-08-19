@@ -32,5 +32,6 @@ class QuizSerializer(serializers.ModelSerializer):
             "questions",
         ]
 
+
 class QuizCreateSerializer(serializers.Serializer):
     url = serializers.URLField()
