@@ -11,6 +11,7 @@ from .authentication import CookieJWTAuthentication
 
 
 class RegistrationView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -25,6 +26,7 @@ class RegistrationView(APIView):
 
 
 class LoginView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -96,6 +98,7 @@ class LogoutView(APIView):
 
 
 class TokenRefreshView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):

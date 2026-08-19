@@ -85,6 +85,8 @@ CORS_ALLOWED_ORIGINS = get_env_list(
     "http://localhost:5500,http://127.0.0.1:5500",
 )
 
+CORS_ALLOW_CREDENTIALS = True
+
 
 # URL configuration
 
