@@ -7,14 +7,12 @@ import json
 from google import genai
 
 
-def generate_quiz(transcript):
+def get_quiz_prompt(transcript):
     """
-    Generates structured quiz data from the provided transcript.
+    Returns the prompt for generating quiz data from a transcript.
     """
 
-    client = genai.Client()
-
-    prompt = f"""
+    return f"""
 Based on the following transcript, generate a quiz in valid JSON format.
 
 The quiz must follow this exact structure:
@@ -48,6 +46,16 @@ Requirements:
 Transcript:
 {transcript}
 """
+
+
+def generate_quiz(transcript):
+    """
+    Generates structured quiz data from the provided transcript.
+    """
+
+    client = genai.Client()
+
+    prompt = get_quiz_prompt(transcript)
 
     response = client.models.generate_content(
         model="gemini-3.5-flash",
