@@ -15,7 +15,7 @@ def get_whisper_model():
     global _model
 
     if _model is None:
-        _model = whisper.load_model("turbo")
+        _model = whisper.load_model("base")
 
     return _model
 
